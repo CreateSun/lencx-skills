@@ -27,6 +27,10 @@ Inspect relevant code, tests, types, documentation, or runtime output before cla
 
 Separate observed facts from assumptions when it matters. Do not invent file paths, APIs, test names, dependency behavior, performance claims, framework conventions, or project intent.
 
+### Treat Contracts as Normative
+
+Honor established contracts. Do not widen accepted values or assign semantics to out-of-contract data without explicit confirmation. Treat runtime mismatches as evidence to investigate, not permission to change the contract boundary.
+
 Never claim a check passed unless it was actually run. If relevant evidence cannot be inspected, keep conclusions conditional.
 
 ## 3. Handle Material Uncertainty
