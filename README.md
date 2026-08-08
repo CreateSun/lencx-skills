@@ -31,15 +31,27 @@ npx skills add lencx/skills -a codex -g
 
 ## Compatibility
 
-Skills follow the open Agent Skills format (`SKILL.md` with `name`/`description` frontmatter) and reference no agent-specific tools, so they work with any agent that reads the format — Claude Code, Codex, Cursor, and others. `npx skills add` handles per-agent installation.
+Skills conform to the open Agent Skills format (`SKILL.md` with
+`name`/`description` frontmatter) and avoid agent-specific tools, so they are
+intended to be portable across compliant hosts. Format portability is not a
+claim of identical behavior: Codex and Claude Code are the primary behavioral
+validation targets, and recorded results belong in [`evals/`](./evals).
+`npx skills add` handles per-agent installation.
 
 Tip: these skills pair best with declarative prompts — state the success criteria ("make these tests pass") rather than step-by-step instructions.
 
 ## Development
 
+- Keep descriptions host-neutral and follow the open Agent Skills
+  [`what + when` contract](https://agentskills.io/specification). Set trigger
+  acceptance thresholds before trials, evaluate identical wording across
+  hosts, and keep the catalog metadata budget in view. Prefer the shorter
+  candidate when its results remain within those thresholds. Validate
+  primarily in Claude Code and Codex, plus every other host for which behavior
+  is specifically claimed.
 - `node scripts/validate-skills.mjs` — two-layer validation: universal checks for every skill (frontmatter, size limits, referenced files, section cross-references), plus inferred archetype packs (`protocol`: rules ↔ failure modes ↔ complete scenario fields/results headers, with positive and negative trigger probes). Runs in CI on every push and PR.
 - [`evals/`](./evals) — project-level behavioral A/B scenarios. `evals/<skill>.md` is matched to `skills/<skill>`; `evals/manifest.json` stores only overrides and project-level exceptions such as cross-skill pairing edges. Skill responsibility boundaries stay in the skills themselves. Use `archetype: "none"` only for skills intentionally outside an inferred pack.
-- Bump the skill's `SKILL.md` `version` whenever installed skill content changes (`SKILL.md` or files under that skill directory).
+- Bump the skill's `SKILL.md` `metadata.version` whenever installed skill content changes (`SKILL.md` or files under that skill directory).
 - Local development with Claude Code: symlink the skill so the installed copy always tracks the repo (re-run `npx skills add` instead if you prefer copies):
 
   ```bash

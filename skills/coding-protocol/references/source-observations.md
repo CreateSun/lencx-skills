@@ -18,24 +18,25 @@ mode with no rule, or a rule with no motivation here, is drift.
 | **No self-cleanup** — scaffolding and dead code left behind by the model's own edits | 4 Keep Changes Small (cleanup clause) |
 | **Sycophancy** — agreeing too readily instead of pushing back or surfacing better alternatives | 3 (evidence-conflict clause); 4 (surface the simpler solution) |
 | **Contrarian substitution** — replacing an explicitly required mechanism or outcome merely because the agent prefers a simpler one | 3 Handle Material Uncertainty; 4 Keep Changes Small |
-| **Action-scope expansion** — treating a request to review, explain, or diagnose as permission to edit the workspace | 3 Handle Material Uncertainty |
-| **Publication expansion** — treating permission to edit locally as permission to commit, push, deploy, publish, message externally, or change machine-wide state | 3 Handle Material Uncertainty; 5 Preserve User Work |
+| **Action-scope expansion** — treating a request to review, explain, or diagnose, or the automatic loading of a focused skill, as permission to edit the workspace | 3 Handle Material Uncertainty |
+| **Publication expansion** — treating permission to edit locally, or a side effect named by an automatically loaded workflow, as permission to commit, push, deploy, publish, message externally, or change machine-wide state | 3 Handle Material Uncertainty; 5 Preserve User Work |
 | **Implicit destructive authorization** — treating a task's apparent need as permission to discard work, reset state, rewrite history, or delete a broad target | 5 Preserve User Work |
 | **Destructive-action paralysis** — refusing an explicitly authorized, exactly targeted, recoverable destructive action solely because it is destructive | 5 Preserve User Work |
 | **Low-risk paralysis** — asking the user to decide harmless, reversible details that local evidence can resolve | 1 Scale By Risk; 3 Handle Material Uncertainty |
 | **Risk-label ritual** — re-asking for decisions already explicit or refusing a fully authorized task merely because its category is high risk | 1 Scale By Risk; 3 Handle Material Uncertainty |
 | **Workspace damage** — overwriting user work, destructive commands, machine-wide changes | 5 Preserve User Work |
 | **Environment mismatch** — assuming tools, dependencies, network, or services not present locally | 6 Respect Local Context |
-| **Irrelevant verification** — citing checks that do not exercise the changed behavior as proof of correctness | 7 Verify Proportionally |
-| **Verification inflation** — running expensive broad checks or changing the environment when a cheaper check would provide the same confidence | 1 Scale By Risk; 7 Verify Proportionally |
+| **Irrelevant verification** — citing a required or passing check that does not exercise the changed behavior as proof of correctness, or skipping a required check because a focused proof exists | 7 Verify Proportionally |
+| **Verification inflation** — running expensive broad checks or changing the environment when neither repository policy nor a focused workflow requires them and a cheaper check would provide the same confidence | 1 Scale By Risk; 7 Verify Proportionally |
 | **Dishonest green** — silencing a failing check (suppression comment, loosened assertion, skipped test, scope escape) instead of fixing the cause | 7 Verify Proportionally |
 | **Suppression absolutism** — refusing a narrow, documented boundary suppression even when the underlying source is immutable and the repository policy defines ownership and removal | 7 Verify Proportionally |
 | **Vacuous test** — a new or changed check has no demonstrated negative control and may pass without exercising the change | 7 Verify Proportionally |
 | **Bug-encoding test** — asserting the code's current output instead of the requested behavior, locking the defect in as truth | 7 Verify Proportionally |
+| **Representation-coupled verification** — matching source strings, selectors or class names, private calls, snapshot shape, generated structure, or another implementation representation as if it proved behavior, when that representation is not itself the documented contract or guard target | 7 Verify Proportionally |
 | **Thrashing** — repeated failed fix attempts that widen the blast radius or flip direction instead of stopping with a diagnosis | 7 Verify Proportionally |
 | **Unattended guessing** — with no user available to ask, material ambiguity silently downgrades to a confident guess | 3 Handle Material Uncertainty |
-| **Dropped requirements** — reporting done while parts of the request were silently dropped or reinterpreted | 8 Report Only What Matters |
-| **Process noise** — narrated ritual, irrelevant detail, overstated confidence | 8 Report Only What Matters |
+| **Dropped requirements** — reporting done while parts of the request or a focused workflow's primary completion criterion were silently dropped or reinterpreted | 8 Report Only What Matters |
+| **Process noise** — narrated ritual, irrelevant detail, overstated confidence, or compressing a required focused artifact in the name of brevity | 8 Report Only What Matters |
 
 ## Effective working patterns
 

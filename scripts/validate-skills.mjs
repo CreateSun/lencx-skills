@@ -14,8 +14,58 @@ const skillsDir = join(root, "skills");
 const evalsDir = join(root, "evals");
 const errors = [];
 const SEMVER_PATTERN = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
+const SUPPORTED_SKILL_FRONTMATTER_FIELDS = new Set([
+  "name",
+  "description",
+  "license",
+  "compatibility",
+  "metadata",
+  "allowed-tools",
+]);
 
 const addError = (message) => errors.push(message);
+
+const extractMetadataVersion = (frontmatter) => {
+  const lines = frontmatter.split("\n");
+  const metadataIndex = lines.findIndex((line) => /^metadata:\s*$/.test(line));
+  if (metadataIndex < 0) return undefined;
+
+  const childLines = [];
+  for (const line of lines.slice(metadataIndex + 1)) {
+    if (line.trim() === "" || line.trimStart().startsWith("#")) continue;
+    const indent = line.match(/^ +/)?.[0].length ?? 0;
+    if (indent === 0) break;
+    childLines.push({ indent, text: line.trim() });
+  }
+  if (childLines.length === 0) return undefined;
+
+  const directIndent = Math.min(...childLines.map(({ indent }) => indent));
+  const rawVersion = childLines
+    .find(({ indent, text }) => indent === directIndent && text.startsWith("version:"))
+    ?.text.slice("version:".length).trim();
+  return rawVersion?.replace(/^(["'])(.*)\1$/, "$2");
+};
+
+const normalizeProbePrompt = (prompt) => prompt.trim().toLowerCase().replace(/\s+/g, " ");
+
+const hasCollaborationScenario = (scenarioBlocks, skillName, peerName) => {
+  const pairOrders = [
+    `${skillName}+${peerName}`,
+    `${peerName}+${skillName}`,
+  ].map((pair) => [
+    `${skillName}-only`,
+    `${peerName}-only`,
+    `${pair}:${skillName}-first`,
+    `${pair}:${peerName}-first`,
+  ]);
+  return scenarioBlocks.some(({ body }) => {
+    const conditionsLine = body.split("\n")
+      .find((line) => /^- \*\*Conditions:\*\*/.test(line));
+    return conditionsLine
+      ? pairOrders.some((tokens) => tokens.every((token) => conditionsLine.includes(token)))
+      : false;
+  });
+};
 
 const assertUnique = (values, label) => {
   const seen = new Set();
@@ -148,7 +198,7 @@ const hasRequiredTriggerPolarities = (probes) =>
 const extractEvalResultTable = (text) => {
   const lines = stripHiddenMarkdown(text).split("\n");
   const headerIndex = lines.findIndex(
-    (line) => line.startsWith("| Date | Agent / model | Skill version |"),
+    (line) => line.startsWith("| Date | Host / build | Model | Skill version | Skill hash |"),
   );
   if (headerIndex < 0) return { headerCells: [], delimiterCells: [] };
   return {
@@ -171,13 +221,51 @@ const hasValidEvalResultDelimiter = (text) => {
 
 const requiredEvalResultPrefix = [
   "Date",
-  "Agent / model",
+  "Host / build",
+  "Model",
   "Skill version",
   "Skill hash",
+  "Focused skill / version / hash",
+  "Load order",
   "Fixture hash",
   "Condition",
   "Trial",
 ];
+
+const requiredTriggerResultHeader = [
+  "Date",
+  "Host / build",
+  "Model",
+  "Skill version",
+  "Description hash",
+  "Catalog profile / manifest hash",
+  "Probe",
+  "Trial",
+  "Expected",
+  "Loaded skills",
+  "Pass",
+  "Notes",
+];
+
+const extractTriggerResultTable = (text) => {
+  const lines = stripHiddenMarkdown(text).split("\n");
+  const headerIndex = lines.findIndex(
+    (line) => line.startsWith("| Date | Host / build | Model | Skill version | Description hash | Catalog profile / manifest hash |"),
+  );
+  if (headerIndex < 0) return { headerCells: [], delimiterCells: [] };
+  return {
+    headerCells: splitMarkdownTableRow(lines[headerIndex]),
+    delimiterCells: splitMarkdownTableRow(lines[headerIndex + 1] ?? ""),
+  };
+};
+
+const hasValidTriggerResultTable = (text) => {
+  const { headerCells, delimiterCells } = extractTriggerResultTable(text);
+  return headerCells.length === requiredTriggerResultHeader.length
+    && headerCells.every((cell, index) => cell === requiredTriggerResultHeader[index])
+    && delimiterCells.length === headerCells.length
+    && delimiterCells.every((cell) => /^:?-{3,}:?$/.test(cell));
+};
 
 const splitMarkdownTableRow = (line) => {
   if (/^(?: {4}|\t)/.test(line)) return [];
@@ -256,20 +344,27 @@ expectSelf(
   "duplicate eval scenario field rejection",
 );
 expectSelf(
-  extractEvalResultHeaderScenarios("| Date | Agent / model | Skill version | K99 | Notes |").includes("K99"),
+  extractEvalResultHeaderScenarios("| Date | Host / build | Model | Skill version | Skill hash | Focused skill / version / hash | Load order | Fixture hash | Condition | Trial | K99 | Notes |").includes("K99"),
   "eval result header extraction",
 );
 expectSelf(
-  extractEvalResultHeaderCells("| Date | Agent / model | Skill version | Skill hash | Fixture hash | Condition | Trial | K99 | Notes |")
+  extractEvalResultHeaderCells("| Date | Host / build | Model | Skill version | Skill hash | Focused skill / version / hash | Load order | Fixture hash | Condition | Trial | K99 | Notes |")
     .includes("Fixture hash"),
   "eval result metadata extraction",
 );
 expectSelf(
   hasValidEvalResultDelimiter(
-    "| Date | Agent / model | Skill version | K99 | Notes |\n"
-      + "| --- | --- | --- | --- | --- |\n",
-  ) && !hasValidEvalResultDelimiter("| Date | Agent / model | Skill version | K99 | Notes |\n"),
+    "| Date | Host / build | Model | Skill version | Skill hash | Focused skill / version / hash | Load order | Fixture hash | Condition | Trial | K99 | Notes |\n"
+      + "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n",
+  ) && !hasValidEvalResultDelimiter("| Date | Host / build | Model | Skill version | Skill hash | Focused skill / version / hash | Load order | Fixture hash | Condition | Trial | K99 | Notes |\n"),
   "eval result delimiter rejection",
+);
+expectSelf(
+  hasValidTriggerResultTable(
+    "| Date | Host / build | Model | Skill version | Description hash | Catalog profile / manifest hash | Probe | Trial | Expected | Loaded skills | Pass | Notes |\n"
+      + "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n",
+  ),
+  "trigger result table validation",
 );
 expectSelf(
   extractTriggerProbes("## Trigger probes\n| T99 | Planted trigger | do not trigger |\n")
@@ -335,6 +430,30 @@ expectSelf(
   diffSets(["planted", "unexpected"], ["planted", "missing"]).missing.includes("missing")
     && diffSets(["planted", "unexpected"], ["planted", "missing"]).unexpected.includes("unexpected"),
   "coverage difference detection",
+);
+expectSelf(
+  extractMetadataVersion("name: planted\nmetadata:\n  version: \"1.2.3\"\n") === "1.2.3"
+    && extractMetadataVersion("name: planted\nversion: 1.2.3\n") === undefined
+    && extractMetadataVersion("metadata:\n  release:\n    version: \"1.2.3\"\n") === undefined,
+  "metadata version extraction",
+);
+expectSelf(
+  normalizeProbePrompt("  Same   Prompt ") === normalizeProbePrompt("same prompt"),
+  "trigger prompt normalization",
+);
+expectSelf(
+  hasCollaborationScenario(
+    [{
+      body: "- **Conditions:** run `alpha-only`, `beta-only`, `alpha+beta:alpha-first`, and `alpha+beta:beta-first`.\n",
+    }],
+    "alpha",
+    "beta",
+  ) && !hasCollaborationScenario(
+    [{ body: "Reserved: alpha-only beta-only alpha+beta:alpha-first alpha+beta:beta-first\n" }],
+    "alpha",
+    "beta",
+  ),
+  "collaboration scenario validation",
 );
 if (selfTestFailures.length > 0) {
   for (const failure of selfTestFailures) addError(`validator self-test failed: ${failure}`);
@@ -549,8 +668,14 @@ const validateProtocolSkill = (skillName, skillTexts, config) => {
     if (!hasValidTriggerProbeDelimiter(evalText)) {
       addError(`${label}: trigger probes must have the expected header and delimiter row`);
     }
-    if (triggerProbes.length === 0) addError(`${label}: eval file must contain trigger probes`);
+    if (triggerProbes.length < 20) {
+      addError(`${label}: eval file must contain at least 20 trigger probes (${triggerProbes.length} found)`);
+    }
     assertUnique(triggerIds, `${label} trigger probe ids`);
+    assertUnique(
+      triggerProbes.map((probe) => normalizeProbePrompt(probe.prompt)),
+      `${label} trigger probe prompts`,
+    );
     for (const probe of triggerProbes) {
       if (!probe.prompt) {
         addError(`${label}: trigger probe ${probe.id} must contain a prompt`);
@@ -561,6 +686,20 @@ const validateProtocolSkill = (skillName, skillTexts, config) => {
     }
     if (!hasRequiredTriggerPolarities(triggerProbes)) {
       addError(`${label}: trigger probes must include trigger and do-not-trigger cases`);
+    }
+    const triggerCount = triggerProbes.filter((probe) => probe.expected === "trigger").length;
+    const negativeCount = triggerProbes.filter((probe) => probe.expected === "do not trigger").length;
+    if (triggerCount < 8 || negativeCount < 8) {
+      addError(`${label}: trigger probes need at least 8 positive and 8 negative cases (${triggerCount}/${negativeCount} found)`);
+    }
+    if (!hasValidTriggerResultTable(evalText)) {
+      addError(`${label}: trigger results log must have the expected header and delimiter row`);
+    }
+    for (const collaboration of collaborations) {
+      if (!collaboration?.skill) continue;
+      if (!hasCollaborationScenario(evalScenarioBlocks, skillName, collaboration.skill)) {
+        addError(`${label}: one scenario Conditions field must exercise "${collaboration.skill}" alone and paired in both load orders`);
+      }
     }
   }
 
@@ -668,12 +807,17 @@ for (const entry of readdirSync(skillsDir)) {
 
   const fm = fmMatch[1];
   const name = fm.match(/^name:\s*(.+)$/m)?.[1]?.trim();
-  const version = fm.match(/^version:\s*(.+)$/m)?.[1]?.trim();
   const desc = fm.match(/^description:\s*(.+)$/m)?.[1]?.trim();
+  const version = extractMetadataVersion(fm);
+  for (const [, field] of fm.matchAll(/^([a-z][a-z0-9-]*):/gm)) {
+    if (!SUPPORTED_SKILL_FRONTMATTER_FIELDS.has(field)) {
+      errors.push(`${entry}: unsupported top-level frontmatter field "${field}"; put extension data under "metadata"`);
+    }
+  }
   if (!name) errors.push(`${entry}: frontmatter missing "name"`);
   else if (name !== entry) errors.push(`${entry}: name "${name}" does not match directory name`);
-  if (!version) errors.push(`${entry}: frontmatter missing "version"`);
-  else if (!SEMVER_PATTERN.test(version)) errors.push(`${entry}: version "${version}" is not valid semver`);
+  if (!version) errors.push(`${entry}: frontmatter missing "metadata.version"`);
+  else if (!SEMVER_PATTERN.test(version)) errors.push(`${entry}: metadata.version "${version}" is not valid semver`);
   if (!desc) errors.push(`${entry}: frontmatter missing "description"`);
   else if (desc.length > 1024) errors.push(`${entry}: description exceeds 1024 characters (${desc.length})`);
 

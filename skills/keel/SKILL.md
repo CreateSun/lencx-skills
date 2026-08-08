@@ -1,7 +1,8 @@
 ---
 name: keel
-version: 1.1.0
-description: Review and govern load-bearing software structure. Use for architecture or module-boundary design and review; changes to public APIs, persisted schemas, or cross-boundary contracts; structural refactors, migrations, or rewrite proposals; and audits of guards, exceptions, deprecation, deletion, or architecture debt. Derive topology, authority, and accountability from the repository's authoritative sources.
+description: Reviews and governs load-bearing architecture. Use when work involves system authority, ownership, outcome completion or recovery contracts, public APIs, persisted schemas, cross-boundary contracts, greenfield system architecture, structural migrations or rewrites, guards, exceptions, deprecation, or deletion.
+metadata:
+  version: "1.1.1"
 ---
 
 # Keel
@@ -14,36 +15,53 @@ focused owner documents, declared contracts, and executable guards. Use the
 repository's terminology and topology; treat missing authority as an explicit
 unknown.
 
-For greenfield work, treat user goals, external constraints, and accepted
-domain facts as authority. Propose the smallest viable ownership and topology
-options, label them as design choices, and make the assumptions falsifiable.
+Separate exploration from closure. For greenfield work, treat user goals,
+external constraints, and accepted domain facts as authority. Propose the
+smallest viable ownership and topology options, label them as design choices,
+and make their assumptions falsifiable.
 
-Select the lenses below that can change the decision and omit the rest. When an
-omission could reasonably look like an oversight, group the inapplicable lenses
-under one short reason rather than manufacturing a checklist. Keel supplies
-review questions and evidence requirements; it does not mint a parallel spine,
-accountability map, contract vocabulary, or shared layer. Scale rigor by blast
-radius and surface only the boundary decisions, evidence, unknowns, risks, and
-trade-offs the user needs.
+Treat the numbered sections as Keel's internal review lenses, not names that a
+repository or another skill must adopt. Select only lenses that can change the
+decision. When an omission could reasonably look like an oversight, group the
+inapplicable lenses under one short reason rather than manufacturing a
+checklist. Use repository or focused-workflow terminology in delivered
+artifacts. Keel supplies boundary evidence and closure conditions; it does not
+mint a parallel spine, accountability map, contract vocabulary, or shared
+layer.
+
+For a closed design, resolve every applicable lens. For exploration or review,
+preserve unresolved lenses as explicit findings or unknowns rather than
+expanding the task merely to force closure. Scale rigor by blast radius and
+surface only the decisions, evidence, unknowns, risks, and trade-offs the user
+needs.
 
 ## Owns
 
-- It owns the review vocabulary and evidence frame for identifying a
+- It owns internal review lenses and the evidence frame for identifying a
   repository-declared spine, concrete surface grades, authority and
   accountability models,
   dependency direction, negative and time paths, guards, and deletion paths.
 - It owns the governance questions for guard health, exception baselines, rot
   indicators, deprecation, deletion, and rewrite containment.
-- When a coding execution protocol is available, pair with it for change
-  execution, implementation verification, and local work preservation. Keel
-  remains useful without that peer and treats those concerns as outside scope.
+- It can run standalone. When focused work supplies architecture options,
+  threats, domain facts, design rationale, or execution evidence, consume them
+  as owned inputs. Preserve their terminology and provenance; challenge gaps
+  through findings and route proposed changes through repository decision
+  authority or the owning workflow rather than silently replacing the
+  artifact.
 
 ## Does Not Own
 
-- It does not define repository architecture truth, topology, terminology,
-  ownership, or contract scope; authoritative project sources define them.
+- Repository sources define architecture truth, topology, terminology,
+  ownership, and contract scope; Keel tests decisions against them.
 - It does not choose a named architecture style, framework, or tooling stack.
-- It does not own change execution, implementation verification, or local work preservation.
+- Focused work, when present, owns its solution exploration, security and
+  threat analysis, domain modeling, and detailed module design. Keel consumes
+  those outputs when they bear on a load-bearing concern.
+- It does not own change execution, implementation verification, or local work
+  preservation. A focused execution workflow owns them when present;
+  otherwise repository and host defaults apply. Keel remains useful without
+  that peer.
 - It does not prove implementation completeness, release readiness, security, compliance, or production fitness.
 - It does not replace domain-specific policy, privacy, data, financial, medical, or legal review.
 - It does not require a fixed document schema; each repository chooses how to make the invariants checkable.
@@ -52,7 +70,9 @@ trade-offs the user needs.
 
 Name the few load-bearing decisions: where inputs are accepted, facts become
 authoritative, effects are authorized, and outcomes complete or recover. Work
-that changes those decisions must cross a declared boundary.
+that changes those decisions is a boundary decision. Use the repository-native
+representation; if no boundary is declared, surface the missing authority
+rather than inventing one.
 
 A shared spine is not a shared execution topology. Multiple controllers,
 transports, hosts, queues, plans, and strategies are legitimate when they
@@ -75,12 +95,14 @@ Not all code earns the same stability promise. Rank surfaces explicitly:
 
 1. Public contracts and schemas — most expensive to change; versioned, migrated, never silently broken.
 2. Declared cross-boundary interfaces — change with their accountable slice; consumers found by tooling.
-3. Module internals — no stability promise; free churn behind behavior tests.
-4. Assembly and wiring — reshape freely while the layers above stay stable.
+3. Module internals — lowest declared stability unless consumers or repository commitments make them more expensive to change.
+4. Assembly and wiring — usually cheapest to reshape while higher-grade behavior stays stable.
 
 The asymmetry is deliberate: internals must stay cheap to rewrite so contracts can afford to be expensive to change. A system where everything is a promise freezes; a system where nothing is a promise shatters.
 
-Every new export, field, flag, or option is a promise someone will stand on. Default new things to the cheapest level that works, and treat any widening of a surface as a contract decision, not a convenience.
+Treat each new export, field, flag, or option as a potential promise. Default
+it to the cheapest level that works, and widen a surface only with evidence
+that the broader contract is required.
 
 Any observable behavior with enough consumers becomes a de facto contract — error text, ordering, timing, and quirks included. Keep the deliberate contract minimal and written so the accidental contract stays small.
 
@@ -123,19 +145,24 @@ accountability belongs there; a need shared by two consumers is not
 sufficient. Do not create a generic shared layer merely to satisfy an import
 graph.
 
-Design for deletability: keep cross-boundary entry surfaces bounded,
-declared, and enumerable by tooling, so retirement is mechanical rather
-than archaeological. What cannot be deleted cannot be replaced.
+Design for deletability: prefer cross-boundary entry surfaces that are bounded,
+declared, and enumerable by tooling. Poorly enumerable surfaces make
+retirement and replacement more expensive.
 
 ## 5. Design The Negative Path And The Time Axis
 
-A design is not closed while a material negative outcome is undefined. For the
-outcomes that can actually occur — denied, failed, partial, stale, cancelled,
-or domain-specific alternatives — define behavior and a proportionate recovery
-route. Mark impossible or immaterial outcomes inapplicable; do not invent state
-machines for a reversible local change.
+For a design under review, every material negative outcome needs either
+defined behavior or an explicit unknown. Any unresolved material unknown that
+can change the decision keeps the design open. For outcomes that can actually
+occur — denied, failed, partial, stale, cancelled, or domain-specific
+alternatives — define behavior and a proportionate recovery route. Mark
+impossible or immaterial outcomes inapplicable; do not invent state machines
+for a reversible local change.
 
-Decay lives in the seams and in time, not inside modules: components that are each individually correct still leak when composed along the time axis. For anything stateful, answer before closing the design: what happens when this runs twice, restarts halfway, or replays?
+Many composition failures emerge at seams and along the time axis: components
+that are individually correct can still leak when combined. For anything
+stateful, answer before closing the design: what happens when this runs twice,
+restarts halfway, or replays?
 
 Classify effects by reversibility — reversible, compensable, irreversible —
 and spend design rigor accordingly. When irreversible effects can be retried,
@@ -145,7 +172,10 @@ Reversible local changes should not inherit that weight.
 
 ## 6. Guard Boundaries With Falsifiable Checks
 
-A boundary that nothing checks is a suggestion. Lower architectural rules into machine-checked guards — import boundaries, schema validation, structural tests — wherever the rule matters.
+A material architecture rule needs proportionate, falsifiable enforcement.
+Prefer machine-checked guards — import boundaries, schema validation,
+structural tests — where feasible. Otherwise use an explicit, auditable review
+mechanism and record why automation is not proportionate.
 
 A guard that cannot fail is wallpaper: prove it still detects a planted or
 known violation. Track negative-control freshness separately from observed
@@ -162,7 +192,10 @@ the guard enforces.
 
 ## 7. Keep The Governed Path Cheapest
 
-If the compliant route costs more than the bypass, every deadline votes for the bypass. Selection beats discipline: the correct path must also be the easiest path, or it will lose to the workaround on every busy week.
+Reduce avoidable friction on the governed path without weakening controlling
+product, safety, security, privacy, or compliance policy. When the compliant
+route carries avoidable cost beyond those controls, every deadline votes for
+the bypass; selection beats discipline.
 
 A recurring bypass is pricing evidence, not just a discipline failure. Measure
 the cost gap between the governed path and the workaround, then reduce friction
@@ -182,10 +215,10 @@ greenfield work, compare each initial concept with a simpler omitted
 alternative instead of inventing a retirement ledger. Nouns that only grow
 without review are rot.
 
-Retire deliberately, never abandon: close the active entry surface, let
-tooling enumerate dependents, and preserve required behavioral evidence
-outside the active implementation. Historical code informs behavior and risk;
-it does not define the target topology.
+A complete retirement closes the active entry surface, lets tooling enumerate
+dependents, and preserves required behavioral evidence outside the active
+implementation. Historical code informs behavior and risk; it does not define
+the target topology.
 
 Start a whole-system rewrite proposal by naming the smallest independently
 replaceable slice and the contracts it preserves. Expand only when evidence
@@ -200,5 +233,5 @@ Read only when needed:
 
 - `references/source-observations.md` — failure-mode mechanisms, provenance, and deliberate omissions; consult before retiring or adding a rule.
 - `references/diagnostics.md` — task routes, design-review questions, and
-  measurable rot indicators; consult for an architecture review, boundary
-  change, structural refactor, or rot audit.
+  measurable rot indicators; consult for greenfield design, architecture
+  review, boundary change, structural refactor, or rot audit.
