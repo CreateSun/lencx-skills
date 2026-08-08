@@ -26,8 +26,8 @@ npx skills add lencx/skills -a codex -g
 
 ## Skills
 
-- [keel](./skills/keel): Architecture design and governance protocol for system structure, boundaries, contracts, migrations, and long-lived codebase health. Keeps the load-bearing spine small, owned, checked, and deletable over time.
-- [coding-protocol](./skills/coding-protocol): Ambient, risk-scaled execution protocol for coding tasks (ref: [Andrej Karpathy's public observations](https://x.com/karpathy/status/2015883857489522876)).
+- [keel](./skills/keel): Architecture review and governance for repository-defined load-bearing facts, boundaries, contracts, migrations, guards, and deletion.
+- [coding-protocol](./skills/coding-protocol): Risk-scaled coding execution hygiene for authority, scope, evidence, user-work preservation, verification, and reporting (ref: [Andrej Karpathy's public observations](https://x.com/karpathy/status/2015883857489522876)).
 
 ## Compatibility
 
@@ -37,8 +37,8 @@ Tip: these skills pair best with declarative prompts — state the success crite
 
 ## Development
 
-- `node scripts/validate-skills.mjs` — two-layer validation: universal checks for every skill (frontmatter, size limits, referenced files, section cross-references), plus inferred archetype packs (`protocol`: rules ↔ failure modes ↔ evals coverage). Runs in CI on every push and PR.
-- [`evals/`](./evals) — project-level behavioral A/B scenarios. `evals/<skill>.md` is matched to `skills/<skill>`; `evals/manifest.json` stores only overrides and project-level exceptions such as cross-skill collaboration boundaries. Use `archetype: "none"` only for skills intentionally outside an inferred pack.
+- `node scripts/validate-skills.mjs` — two-layer validation: universal checks for every skill (frontmatter, size limits, referenced files, section cross-references), plus inferred archetype packs (`protocol`: rules ↔ failure modes ↔ complete scenario fields/results headers, with positive and negative trigger probes). Runs in CI on every push and PR.
+- [`evals/`](./evals) — project-level behavioral A/B scenarios. `evals/<skill>.md` is matched to `skills/<skill>`; `evals/manifest.json` stores only overrides and project-level exceptions such as cross-skill pairing edges. Skill responsibility boundaries stay in the skills themselves. Use `archetype: "none"` only for skills intentionally outside an inferred pack.
 - Bump the skill's `SKILL.md` `version` whenever installed skill content changes (`SKILL.md` or files under that skill directory).
 - Local development with Claude Code: symlink the skill so the installed copy always tracks the repo (re-run `npx skills add` instead if you prefer copies):
 

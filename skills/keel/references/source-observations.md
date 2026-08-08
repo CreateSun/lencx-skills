@@ -15,20 +15,31 @@ to judge whether a rule has become dead armor.
 
 | Failure mode | Mechanism — why it keeps happening | Rule |
 | --- | --- | --- |
-| **Spine bloat** | Adding a peer subsystem is locally cheaper than negotiating with the owner of the existing path; the integration cost is deferred to every future reader. Deadlines select the peer. | 1 |
+| **Spine bloat** | Adding an authority or completion path outside the declared model is locally cheaper than negotiating a boundary and reconciliation rule; the integration cost is deferred to every future reader. Deadlines select the peer. | 1 |
+| **Execution-topology collapse** | Equating one causal spine with one controller, process, queue, or plan flattens legitimate replaceable mechanisms and leaks today's execution topology into the architecture contract. | 1 |
+| **Product-shape overreach** | Turning a causal-spine heuristic into a ban on product modes or single-domain top-level concepts substitutes architecture taste for user and repository requirements. | 1 |
+| **Greenfield authority vacuum** | With no repository precedent, an agent either stalls indefinitely or imports its preferred topology as fact. Greenfield design needs explicit proposals grounded in user and external constraints, not invented authority. | 1, 4 |
 | **Accidental stability** | Exporting is one keystroke; the promise it creates is invisible at creation time and only priced later, when changing it breaks a consumer. Promises get minted as a side effect. | 2 |
 | **Load-bearing accident** | With enough consumers, every observable behavior is depended on regardless of intent (Hyrum's law). The contract you wrote is always a subset of the contract you actually shipped. | 2 |
-| **Truth fragmentation** | The copy is easier to edit than the source, so edits land on the copy and the source decays into a lie. Generated files invite hand-edits whenever the generator is slower than a text editor. | 3 |
-| **Orphan / dual ownership** | Ownership decays silently: files keep churning while the owner of record stops looking. "Everyone's module" means no one re-checks its invariants. | 4 |
-| **Sideways coupling** | Reaching for a sibling is one import; routing through the shared layer is a design conversation. Selection favors the import. Deletability dies first, replaceability second. | 4 |
+| **Truth fragmentation** | A replica is easier to edit than its source, so edits land without provenance or reconciliation and the declared authority decays into a lie. Generated files invite hand-edits whenever the generator is slower than a text editor. | 3 |
+| **Projection-category collapse** | Treating a file kind such as cache, transcript, or view as permanently non-authoritative hides independent operational facts that the artifact legitimately owns, while still failing to identify which source facts it merely projects. | 3 |
+| **Authority-model collapse** | Forcing a single writer or owner onto a deliberately partitioned, quorum-based, or multi-writer system destroys valid availability or jurisdiction semantics instead of making its conflict rules explicit. | 3, 4 |
+| **Ambiguous ownership** | Accountability decays silently when decision rights, partitions, tie-breakers, or lifecycle responsibility are missing. Either "everyone owns it" or an invented sole owner can conceal the real defect. | 4 |
+| **Ownership-role collapse** | Confusing one accountable semantic owner with one maintainer or consumer turns responsibility into exclusivity, discourages collaboration, and makes every contributor look like a second owner. | 4 |
+| **Sideways coupling** | Reaching into another domain's internals is one import; negotiating a declared public surface or assembly seam is a design conversation. Selection favors the import. Deletability dies first, replaceability second. | 4 |
+| **Shared-kernel dumping** | Moving domain semantics into a generic lower layer satisfies the import graph immediately, but erases focused accountability and turns the shared layer into a permanent coordination tax. | 4 |
 | **Happy-path architecture** | Demos reward the happy path; failure semantics have no demo. Negative paths end up designed during the incident, under the worst possible conditions. | 5 |
 | **Time-axis leaks** | Components are tested in single-process, single-run harnesses; restart, retry, and replay exist only in production. Every layer can be individually correct while the composition leaks along the time axis. | 5 |
+| **Architecture ceremony inflation** | Applying every lens and recovery mechanism to every boundary makes governance more expensive than the bypass and hides material risk inside boilerplate. | 5, 6, 8 |
 | **Paper boundaries** | Documents don't run. Rules held only in prose decay at the rate of staff turnover — for agent-maintained code, at the rate of context-window turnover, which is every session. | 6 |
 | **Wallpaper guards** | A guard that never fires is indistinguishable from a working one until someone plants a violation. Noisy guards get disabled; silent ones get trusted. Both end at zero protection. | 6 |
+| **Quiet-guard retirement** | Using the absence of real violations as guard-health evidence retires a healthy boundary check even when its negative control still proves that the protected mechanism and detector are live. | 6 |
 | **Exception accretion** | Each exception is individually reasonable; the list only grows because removal has no owner and no deadline. | 6 |
 | **Pricing inversion** | Under deadline the bypass is chosen by selection, not malice, and each successful bypass lowers the social cost of the next. Discipline cannot outrun economics. | 7 |
+| **Containment deferral** | Treating “make the governed path cheapest” as a strict sequencing law can leave an active safety or correctness breach open while the ideal low-friction route is built. Immediate containment and durable path economics operate on different time horizons. | 7 |
 | **Concept inflation** | Naming a new thing is the author's joy and the reader's tax, and the tax is invisible in the PR that adds it. Saturated cognition breeds patch-on-patch. | 8 |
 | **Rewrite gravity** | Once comprehension cost exceeds rewrite cost for one individual, the rewrite looks locally rational; the institutional knowledge it destroys was never on that individual's balance sheet. | 8 |
+| **Rewrite containment dogma** | Treating the smallest-slice heuristic as an absolute preserves migration machinery even when a bounded replacement cannot close or the whole target is cheap, isolated, and explicitly replaceable. | 8 |
 | **Knowledge evaporation** | Reasons live in heads and chat logs; rules live in files. The rule outlives the reason and becomes either superstition (kept in fear) or noise (deleted in ignorance). | 8 |
 
 ## Translated practice (provenance)
@@ -38,7 +49,8 @@ source if a rule comes under question:
 
 - **Linux** — graded stability (userspace contract sacred, in-kernel
   interfaces refuse stability promises) → section 2; inactive-maintainer
-  removal → the ownership-freshness indicator in `diagnostics.md`.
+  removal → the boundary/accountability-divergence indicator in
+  `diagnostics.md`.
 - **Git** — plumbing/porcelain stability split → section 2, level 4.
 - **SQLite** — invariants sunk into file formats, state machines, and a
   test corpus rather than convention → section 6.
@@ -64,3 +76,6 @@ Recorded so they are not "discovered missing" and re-added by accident:
 - **Specific tooling** (doc frontmatter schemas, manifest formats, named
   checkers) — the protocol states the invariant (falsifiable, dated,
   shrink-only); each repo picks its own mechanism.
+- **Repository-specific topology and contract vocabulary** — Keel reads and
+  obeys authoritative project sources; it does not copy them into a generic
+  rule set.

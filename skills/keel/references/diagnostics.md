@@ -14,28 +14,30 @@ surface back to the user.
 
 | Route | Use when | Required refs | Stop when | Must output |
 | --- | --- | --- | --- | --- |
-| `architecture_review` | reviewing a design, RFC, or structural PR | spine, changed surfaces, owners, negative path, checks | every material claim maps to a file, contract, test, owner, or explicit unknown | findings, boundary decisions, missing evidence, remaining risk |
-| `boundary_change` | adding, widening, moving, or deleting a public contract, schema, export, flag, or module entry surface | stability level, consumers, owner, migration path, guard | the new promise, compatibility cost, and verification path are known | surface grade, consumer impact, migration or deprecation plan, verification |
+| `greenfield_design` | designing load-bearing structure where no repository authority exists yet | user goals, external constraints, domain facts, risk and operating context, viable alternatives | the smallest viable model, rejected alternatives, assumptions, and validation path are explicit | proposed invariants, authority and accountability model, surface grades, negative and time paths, checks, unknowns |
+| `architecture_review` | reviewing a design, RFC, or structural PR | repository authority, in-scope facts and transitions, changed surfaces, owners, negative path, checks | every material claim maps to a file, contract, test, owner, or explicit unknown | findings, boundary decisions, missing evidence, remaining risk |
+| `boundary_change` | adding, widening, moving, or deleting a contract, schema, export, flag, or declared entry surface | concrete surface grade, consumers, accountability model, and any applicable migration or guard | the new promise, compatibility cost, authority, and proportionate verification path are known | surface grade, consumer impact, applicable migration or deprecation plan, verification |
 | `structural_refactor` | splitting, merging, relocating, or rewriting a module or slice | current owner, dependency direction, entry surface, behavior evidence, retirement candidate | the smallest safe slice is named and dependents are enumerable by tooling | slice boundary, preserved contracts, deletion path, checks |
-| `rot_audit` | auditing a living codebase for drift or recurring bypass | rot indicators, trend source, exception baseline, guard last-failed evidence | at least one trend or missing trend is grounded in repo evidence | subtraction batch, owner, removal condition, next snapshot |
+| `rot_audit` | auditing a living codebase for drift or recurring bypass | declared scope, selected indicators, evidence window, exception baseline, negative-control evidence | every in-scope indicator has grounded evidence, an explicitly unavailable source, or a reasoned exclusion | findings, no-action or subtraction candidates, owners, review trigger, next snapshot |
 
 ## Design review matrix
 
-Run over a proposed design, RFC, or structural PR. Every row should be
-answerable with concrete references (files, contracts, checks); an
-unanswerable row is itself the finding — report it, don't fill it with
-prose.
+Run only the rows that can plausibly change the proposed design, RFC, or
+structural PR. A selected row should be answerable with concrete references
+(files, contracts, checks); an unanswerable selected row is itself the finding.
+Omit irrelevant rows, or group them under one reason when their absence could
+look like an oversight.
 
 | Slot | Question | Rule |
 | --- | --- | --- |
-| Spine | Which existing load-bearing path does this lower into? If it claims a new peer path: what evidence justifies it, and what does it retire? | 1 |
+| Spine | Where are inputs accepted, facts made authoritative, effects authorized, and outcomes completed or recovered? Do multiple mechanisms preserve that model or create an unreconciled peer? | 1 |
 | Surface | Which stability level does each new or changed surface sit on? Which new promises (exports, fields, flags, options) are minted, and is each at the cheapest level that works? | 2 |
-| Truth | Which facts does this restate rather than reference? Which artifacts are derived — from what source, regenerated how? | 3 |
-| Ownership | Who owns each new piece, and what does it explicitly not own? Do all new dependencies point in the declared direction? | 4 |
-| Negative path | What is the defined behavior for denied, failed, partial, stale, and cancelled outcomes? What is the recovery route, and who triggers it? | 5 |
-| Time | What happens if this runs twice, restarts halfway, or replays? Which idempotency key, state machine, lease, or reconciliation answers each case? | 5 |
-| Guards | Which machine check enforces each rule this design relies on? Has that check ever been seen failing? | 6 |
-| Budget | What is the net concept growth? What does the addition retire — and if nothing, what is the declared review date? | 8 |
+| Truth | For each fact and jurisdiction, what is the authority model and conflict rule? What is a projection for that relation, and which independent operational facts does it hold? | 3 |
+| Ownership | Is accountability single, partitioned, or joint, and are decision rights and lifecycle responsibility explicit? Does collaboration use declared public surfaces rather than internals or a generic shared dumping ground? | 4 |
+| Negative path | Which negative outcomes can materially occur, what happens for each, and which labels are inapplicable? What is the proportionate recovery route? | 5 |
+| Time | If the design is stateful or repeatable, what happens when it runs twice, restarts halfway, or replays? Which control answers each applicable case? | 5 |
+| Guards | Which relied-on rules justify a machine check at this blast radius? For each check, when did a negative control prove detection, and can scope be escaped? | 6 |
+| Budget | In an existing system, what is the net concept growth, retirement, accountability, and review date? In greenfield work, which simpler alternative was rejected and why? | 8 |
 
 Section 7 (pricing) is a property of the running system, not of one
 design; it is audited through the bypass-frequency indicator below.
@@ -44,20 +46,22 @@ design; it is audited through the bypass-frequency indicator below.
 
 Lagging symptoms (incidents, rewrites) arrive too late; these are leading
 indicators. For every one of them, **direction matters more than level**:
-the absolute number is debatable, a monotonic rise is not. The working
-trigger: three consecutive rises in any indicator schedules a subtraction
-batch — removal work, not a new wall.
+the absolute number is debatable, a monotonic rise is not. A working default
+is that three consecutive rises trigger an owner review. The evidence decides
+whether the response is subtraction, a cheaper governed path, a boundary fix,
+or no action; the metric does not schedule work by itself.
 
 | Indicator | How to read it |
 | --- | --- |
-| Suppression count — lint-disables, unchecked casts, skipped tests, baseline entries | Shrink-only. Any growth names an owner and a removal condition, or it is exception accretion in progress. |
-| Guard last-failed date | A guard that has not failed in months is either guarding a solved problem (retirement candidate) or wallpaper (plant a violation and see which). |
+| Suppression count — lint-disables, unchecked casts, skipped tests, baseline entries | Default the trend and baseline to shrink-only. Any justified increase is a visible baseline decision with decision authority, reason, narrow scope, date, and removal condition; unreviewed growth is exception accretion. |
+| Negative-control freshness | Track the last time a planted or known violation was detected. Staleness questions the guard mechanism even when the repository is clean. |
+| Observed violation history | Track real violations separately as pressure on the boundary. A long quiet period is not by itself evidence that a falsifiable guard should retire. |
 | Public surface growth | Exports, fields, and options added per period versus features shipped. Surface outgrowing features means promises are being minted as a side effect. |
-| Concept count | New nouns (services, managers, layers, config keys) added versus retired. A ledger that never records a retirement is rot, whatever the additions individually look like. |
-| Duplicate truth | The same constant, rule, or list encoded in more than one place. Each instance is a scheduled future divergence. |
-| Ownership freshness | Files churning while their owning doc or declared owner stays frozen — ownership drifting from record to folklore. |
+| Concept count | New nouns (services, managers, layers, config keys) added versus retired or explicitly accepted as net growth. A ledger that records neither retirement nor reviewed growth is rot. |
+| Ambiguous authority | The same fact is independently editable in more than one place without declared partition, merge, conflict, freshness, and recovery rules. Deliberate federation and replicas are not defects when those rules are explicit. |
+| Boundary / accountability divergence | Code widens or crosses a declared boundary without corresponding contract and decision-right evidence. Internal churn behind an unchanged contract is not drift. |
 | Bypass frequency | How often the documented path is skipped (direct pushes, manual deploys, ad-hoc scripts). This is the pricing-gap reading: rising bypasses price the governed path, they do not indict the people. |
-| Sideways imports | Sibling-domain imports over time. Each one removes a module from the deletable set. |
+| Undeclared cross-boundary imports | Imports that violate declared dependency direction or bypass a public surface. Count the boundary violation, not directory kinship by itself. |
 | Hand-edited derived files | Diffs touching files with generated headers. Signals the generator is slower than a text editor; fix the generator's cost first, then the file. |
 
 ### Wiring
@@ -68,7 +72,7 @@ reading carries almost no information; the trend is the signal. Most
 indicators are one `grep`/`git log` away; resist building a platform for
 them (section 8 applies to tooling too).
 
-Indicators are projections of health, not health itself. A green
-dashboard over a rotting seam is exactly the wallpaper-guard failure mode
-applied to the meta level — when an indicator stops moving for a long
-time, audit the indicator before celebrating the system.
+Indicators are projections of health, not health itself. Declare each
+indicator's scope, evidence window, and known blind spots. A green dashboard
+over a rotting seam is the wallpaper-guard failure mode at the meta level; a
+quiet signal should be validated, not automatically celebrated or retired.
