@@ -21,7 +21,7 @@ to judge whether a rule has become dead armor.
 | **Greenfield authority vacuum** | With no repository precedent, an agent either stalls indefinitely, discards peer-generated options, or imports its preferred topology as fact. Greenfield design needs explicit proposals grounded in user and external constraints, with unresolved choices left open when evidence cannot close them. | 1, 4 |
 | **Accidental stability** | Exporting is one keystroke; the promise it creates is invisible at creation time and only priced later, when changing it breaks a consumer. Promises get minted as a side effect. | 2 |
 | **Load-bearing accident** | With enough consumers, every observable behavior is depended on regardless of intent (Hyrum's law). The contract you wrote is always a subset of the contract you actually shipped. | 2 |
-| **Truth fragmentation** | A replica is easier to edit than its source, so edits land without provenance or reconciliation and the declared authority decays into a lie. Generated files invite hand-edits whenever the generator is slower than a text editor. | 3 |
+| **Truth fragmentation** | A replica is easier to edit than its source, so edits land without provenance or reconciliation and the declared authority decays into a lie. Generated files invite hand-edits whenever the generator is slower than a text editor. Imposed record maps or metadata can create a second editable route, override repository-native ownership, or rewrite lifecycle history. | 3 |
 | **Projection-category collapse** | Treating a file kind such as cache, transcript, or view as permanently non-authoritative hides independent operational facts that the artifact legitimately owns, while still failing to identify which source facts it merely projects. | 3 |
 | **Authority-model collapse** | Forcing a single writer or owner onto a deliberately partitioned, quorum-based, or multi-writer system destroys valid availability or jurisdiction semantics; replacing a focused architecture or threat model while doing so also erases the evidence Keel should review. | 3, 4 |
 | **Ambiguous ownership** | Accountability decays silently when decision rights, partitions, tie-breakers, or lifecycle responsibility are missing. Either "everyone owns it" or an invented sole owner can conceal the real defect. | 4 |
@@ -73,9 +73,11 @@ Recorded so they are not "discovered missing" and re-added by accident:
 - **Org-design mechanics** (maintainer hierarchies, LTS branch policy,
   RFC committees) — they presume a human organization; the protocol must
   also work for a single agent session.
-- **Specific tooling** (doc frontmatter schemas, manifest formats, named
-  checkers) — the protocol states the invariant (falsifiable, dated,
-  shrink-only); each repo picks its own mechanism.
+- **Mandatory documentation tooling** (universal frontmatter schemas,
+  manifest formats, named checkers) — the protocol states the invariant and
+  defaults to repository-native mechanisms. The structure decision ladder in
+  `architecture-records.md` apply only when format and lifecycle authority are
+  explicitly delegated.
 - **Repository-specific topology and contract vocabulary** — Keel reads and
   obeys authoritative project sources; it does not copy them into a generic
   rule set.

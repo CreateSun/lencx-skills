@@ -1,20 +1,20 @@
 ---
 name: coding-protocol
-description: Governs coding execution. Use when implementing, debugging or diagnosing, refactoring, reviewing code, planning implementation, or mutating Git state; preserves authorization, scope, user work, verification, and reporting integrity.
+description: Risk-scaled execution protocol for code or configuration changes, bug fixes, debugging, refactors, code reviews, implementation plans, and Git mutations. Guards against silent assumptions, scope expansion, collateral edits, unverified claims, and silenced failures.
 metadata:
-  version: "1.2.1"
+  version: "1.2.2"
 ---
 
 # Coding Protocol
 
 A low-friction protocol for reliable coding work. Apply it in the background and surface only decisions, blockers, verification, or risks the user actually needs.
 
-Repository sources own local facts, terminology, contracts, and required
-checks. A focused workflow owns its domain method, required artifact, and
-primary completion criterion. This protocol owns the execution envelope:
-authorization, action scope, work preservation, environment assumptions,
-evidence integrity, and truthful reporting. Apply ownership by concern;
-neither source globally precedes the other.
+Repository evidence supplies current local facts; repository instructions and
+contracts supply required checks. A focused workflow supplies its domain
+method, artifact, and completion criterion. This protocol adds only execution
+constraints: authorization, action scope, work preservation, environment
+assumptions, evidence integrity, and truthful reporting. Combine them by
+concern; loading one does not supersede the others or grant new authority.
 
 If no focused workflow applies, continue from repository evidence with the
 narrowest safe method. For multi-step work, adopt the task's or focused
@@ -121,11 +121,10 @@ meaningfully covers the changed path. Run policy-required checks even when
 they are not that proof, and label the distinction.
 
 At the seam selected by the task, repository, or focused workflow, prefer a
-check of stable observable behavior. Source text, selectors or utility-class
-names, private call order, snapshot shape, generated-code structure, and other
-representation details are not behavioral proof unless that representation is
-itself a documented contract or guard target. In that exception, state the
-protected contract and keep the claim scoped to it.
+check of stable observable behavior. A check coupled only to an incidental or
+private implementation representation is not behavioral proof. Treat the
+representation itself as evidence only when it is a documented contract or
+guard target; state that contract and keep the claim scoped to it.
 
 Get to green honestly. Do not hide a failing signal with loosened assertions,
 skipped tests, unjustified suppressions, or code moved out of a check's scope.
@@ -136,9 +135,10 @@ A new or changed check offered as evidence for the task must be able to fail.
 Establish sensitivity with the pre-fix failure, a targeted mutation or planted
 violation, or another credible negative control. Never disturb unrelated user
 work merely to manufacture that proof; if a safe negative control is blocked,
-report the non-proof. Derive expected behavior from the request or documented
-contract, not from the code's current output — a test that asserts observed
-behavior can lock in the bug it should catch.
+report the non-proof. Derive expected behavior from the request, a repository
+contract, or an explicit characterization goal. Do not copy current output
+into assertions and present it as intended behavior; that can lock in the bug
+the check should catch.
 
 When a check fails, diagnose before widening the change. Widen only when new
 evidence expands the cause. If attempts keep failing or reversing direction,
@@ -164,4 +164,6 @@ it or it affects the user. Do not overstate confidence.
 
 ## Reference
 
-Rationale and failure-mode traceability: `references/source-observations.md` (read only when needed).
+Before changing or auditing this protocol's rules, read
+`references/source-observations.md` and keep every failure-mode-to-section
+mapping accurate. Do not load it for routine coding tasks.

@@ -1,7 +1,9 @@
 # Source Observations
 
-Based on Andrej Karpathy's public observations on LLM-assisted coding,
-extended with production learnings.
+The initial observations are traceable to
+[Andrej Karpathy's public post](https://x.com/karpathy/status/2015883857489522876).
+Later rows are this project's failure-mode hypotheses from observed use; do
+not attribute the full map to that source.
 
 ## Failure modes → protocol rules
 
@@ -32,7 +34,7 @@ mode with no rule, or a rule with no motivation here, is drift.
 | **Suppression absolutism** — refusing a narrow, documented boundary suppression even when the underlying source is immutable and the repository policy defines ownership and removal | 7 Verify Proportionally |
 | **Vacuous test** — a new or changed check has no demonstrated negative control and may pass without exercising the change | 7 Verify Proportionally |
 | **Bug-encoding test** — asserting the code's current output instead of the requested behavior, locking the defect in as truth | 7 Verify Proportionally |
-| **Representation-coupled verification** — matching source strings, selectors or class names, private calls, snapshot shape, generated structure, or another implementation representation as if it proved behavior, when that representation is not itself the documented contract or guard target | 7 Verify Proportionally |
+| **Representation-coupled verification** — asserting an incidental or private implementation representation as if it proved behavior, when that exact representation is not the documented contract or guard target | 7 Verify Proportionally |
 | **Thrashing** — repeated failed fix attempts that widen the blast radius or flip direction instead of stopping with a diagnosis | 7 Verify Proportionally |
 | **Unattended guessing** — with no user available to ask, material ambiguity silently downgrades to a confident guess | 3 Handle Material Uncertainty |
 | **Dropped requirements** — reporting done while parts of the request or a focused workflow's primary completion criterion were silently dropped or reinterpreted | 8 Report Only What Matters |
