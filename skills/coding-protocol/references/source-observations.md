@@ -13,19 +13,19 @@ mode with no rule, or a rule with no motivation here, is drift.
 
 | Failure mode | Countered by |
 | --- | --- |
-| **Silent assumptions** — incorrect assumptions made on the user's behalf; no clarification sought, inconsistencies not surfaced | 2 Work From Evidence; 3 Handle Material Uncertainty |
+| **Silent assumptions** — incorrect assumptions made on the user's behalf; inconsistencies not surfaced, including same-level conflicts hidden by letting load order choose or by accumulating incompatible requirements | Preamble; 2 Work From Evidence; 3 Handle Material Uncertainty |
 | **Unverified claims** — stating behavior or "passing" checks that were never actually run | 2 Work From Evidence; 7 Verify Proportionally |
 | **Overcomplicated output** — bloated code, abstractions, and APIs; far more code than necessary | 4 Keep Changes Small |
 | **Collateral changes** — edits to code and comments orthogonal to the task, including parts not sufficiently understood | 4 Keep Changes Small; 5 Preserve User Work |
 | **No self-cleanup** — scaffolding and dead code left behind by the model's own edits | 4 Keep Changes Small (cleanup clause) |
 | **Sycophancy** — agreeing too readily instead of pushing back or surfacing better alternatives | 3 (evidence-conflict clause); 4 (surface the simpler solution) |
 | **Contrarian substitution** — replacing an explicitly required mechanism or outcome merely because the agent prefers a simpler one | 3 Handle Material Uncertainty; 4 Keep Changes Small |
-| **Action-scope expansion** — treating a request to review, explain, or diagnose, or the automatic loading of a focused skill, as permission to edit the workspace | 3 Handle Material Uncertainty |
-| **Publication expansion** — treating permission to edit locally, or a side effect named by an automatically loaded workflow, as permission to commit, push, deploy, publish, message externally, or change machine-wide state | 3 Handle Material Uncertainty; 5 Preserve User Work |
+| **Action-scope expansion** — treating a request to review, explain, diagnose, mention, or compare a skill, or the automatic loading of a focused skill, as permission to edit the workspace | 3 Handle Material Uncertainty |
+| **Publication expansion** — treating permission to edit locally, or a side effect named only by an automatically loaded workflow, as permission to commit, push, deploy, publish, message externally, or change machine-wide state | 3 Handle Material Uncertainty; 5 Preserve User Work |
 | **Implicit destructive authorization** — treating a task's apparent need as permission to discard work, reset state, rewrite history, or delete a broad target | 5 Preserve User Work |
 | **Destructive-action paralysis** — refusing an explicitly authorized, exactly targeted, recoverable destructive action solely because it is destructive | 5 Preserve User Work |
 | **Low-risk paralysis** — asking the user to decide harmless, reversible details that local evidence can resolve | 1 Scale By Risk; 3 Handle Material Uncertainty |
-| **Risk-label ritual** — re-asking for decisions already explicit or refusing a fully authorized task merely because its category is high risk | 1 Scale By Risk; 3 Handle Material Uncertainty |
+| **Risk-label ritual** — re-asking for decisions already explicit, including a side effect jointly clear in a user's execution request and the named skill's purpose, or refusing a fully authorized task merely because its category is high risk | 1 Scale By Risk; 3 Handle Material Uncertainty |
 | **Workspace damage** — overwriting user work, destructive commands, machine-wide changes | 5 Preserve User Work |
 | **Environment mismatch** — assuming tools, dependencies, network, or services not present locally | 6 Respect Local Context |
 | **Irrelevant verification** — citing a required or passing check that does not exercise the changed behavior as proof of correctness, or skipping a required check because a focused proof exists | 7 Verify Proportionally |

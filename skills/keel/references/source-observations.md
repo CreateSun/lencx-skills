@@ -16,21 +16,21 @@ to judge whether a rule has become dead armor.
 | Failure mode | Mechanism — why it keeps happening | Rule |
 | --- | --- | --- |
 | **Spine bloat** | Adding an authority or completion path outside the declared model is locally cheaper than negotiating a boundary and reconciliation rule; the integration cost is deferred to every future reader. Deadlines select the peer. | 1 |
-| **Execution-topology collapse** | Equating one causal spine with one controller, process, queue, or plan flattens legitimate replaceable mechanisms and leaks today's execution topology into the architecture contract. | 1 |
-| **Product-shape overreach** | Turning a causal-spine heuristic into a ban on product modes or single-domain top-level concepts substitutes architecture taste for user, repository, and focused product-design evidence. | 1 |
-| **Greenfield authority vacuum** | With no repository precedent, an agent either stalls indefinitely, discards peer-generated options, or imports its preferred topology as fact. Greenfield design needs explicit proposals grounded in user and external constraints, with unresolved choices left open when evidence cannot close them. | 1, 4 |
-| **Accidental stability** | Exporting is one keystroke; the promise it creates is invisible at creation time and only priced later, when changing it breaks a consumer. Promises get minted as a side effect. | 2 |
+| **Execution-topology collapse** | Equating one load-bearing decision chain with one controller, process, queue, or plan flattens legitimate replaceable mechanisms and leaks today's execution topology into the architecture contract. Treating every possible point as mandatory similarly invents write, commit, effect, or recovery stages in simpler systems. | 1 |
+| **Product-shape overreach** | Turning a load-bearing-boundary heuristic into a ban on product modes or single-domain top-level concepts substitutes architecture taste for user, repository, and focused product-design evidence. | 1 |
+| **Greenfield authority vacuum** | With no repository precedent, an agent either stalls indefinitely, discards supplied alternatives, or imports its preferred topology as fact. Greenfield design needs explicit proposals grounded in user and external constraints, with unresolved choices left open when evidence cannot close them. | Preamble; 1, 4 |
+| **Accidental stability** | Exporting is one keystroke; the promise it creates is invisible until changing it breaks a consumer. A declared clean target can likewise be mistaken for cutover authority while consumers, data, old routes, or recovery remain unresolved. | 2 |
 | **Load-bearing accident** | With enough consumers, every observable behavior is depended on regardless of intent (Hyrum's law). The contract you wrote is always a subset of the contract you actually shipped. | 2 |
-| **Truth fragmentation** | A replica is easier to edit than its source, so edits land without provenance or reconciliation and the declared authority decays into a lie. Generated files invite hand-edits whenever the generator is slower than a text editor. Imposed record maps or metadata can create a second editable route, override repository-native ownership, or rewrite lifecycle history. | 3 |
+| **Truth fragmentation** | Replicas and generated files are easier to hand-edit than their sources, so provenance and reconciliation decay. Imposed record maps can add an editable route, confuse decision with editorial authority, override ownership, or rewrite lifecycle history. | 3 |
 | **Projection-category collapse** | Treating a file kind such as cache, transcript, or view as permanently non-authoritative hides independent operational facts that the artifact legitimately owns, while still failing to identify which source facts it merely projects. | 3 |
-| **Authority-model collapse** | Forcing a single writer or owner onto a deliberately partitioned, quorum-based, or multi-writer system destroys valid availability or jurisdiction semantics; replacing a focused architecture or threat model while doing so also erases the evidence Keel should review. | 3, 4 |
+| **Authority-model collapse** | Fact authority, ownership, write admission, data partition, replication, commit, conflict, and recovery are orthogonal. Treating them as competing types—or forcing one writer or owner—destroys availability and jurisdiction semantics. | 3, 4 |
 | **Ambiguous ownership** | Accountability decays silently when decision rights, partitions, tie-breakers, or lifecycle responsibility are missing. Either "everyone owns it" or an invented sole owner can conceal the real defect. | 4 |
-| **Ownership-role collapse** | Confusing one accountable semantic owner with one maintainer or consumer turns responsibility into exclusivity, discourages collaboration, and makes every contributor look like a second owner. | 4 |
+| **Ownership-role collapse** | Confusing artifact or domain with responsibility either lets Keel replace focused professional judgment or skips Keel when that work must also change a load-bearing decision. Architecture accountability still differs from writer, maintainer, and consumer roles. | Composition; 4 |
 | **Sideways coupling** | Reaching into another domain's internals is one import; negotiating a declared public surface or assembly seam is a design conversation. Selection favors the import. Deletability dies first, replaceability second. | 4 |
 | **Shared-kernel dumping** | Moving domain semantics into a generic lower layer satisfies the import graph immediately, but erases focused accountability and turns the shared layer into a permanent coordination tax. | 4 |
-| **Happy-path architecture** | Demos reward the happy path; failure semantics have no demo. Negative paths end up designed during the incident, under the worst possible conditions. | 5 |
-| **Time-axis leaks** | Components are tested in single-process, single-run harnesses; restart, retry, and replay exist only in production. Every layer can be individually correct while the composition leaks along the time axis. | 5 |
-| **Architecture ceremony inflation** | Applying every lens and recovery mechanism to every boundary, or forcing an exploratory artifact into design closure, makes governance more expensive than the bypass and hides material risk inside boilerplate. | 5, 6, 8 |
+| **Happy-path architecture** | Demos reward the happy path. A named recovery route creates false closure without a trigger, decision authority, owner, terminal invariant, and completion evidence. | 5 |
+| **Time-axis leaks** | Components are tested in single-process, single-run harnesses; restart, retry, replay, uncertain commit, and failed convergence exist only in production. Every layer can be individually correct while the composition leaks along the time axis. | 5 |
+| **Architecture ceremony inflation** | Applying every lens makes governance costlier than bypassing it; vague applicability silently skips risk-bearing lenses. A shared calculus and auditable skip reason prevent both. | Composition; 5, 6, 8 |
 | **Paper boundaries** | An unowned prose-only rule is easy to bypass and forget. Material rules need proportionate falsifiable enforcement; when automation is not justified, the review mechanism and its evidence still need to be explicit and auditable. | 6 |
 | **Wallpaper guards** | A guard that never fires is indistinguishable from a working one until someone plants a violation. Noisy guards get disabled; silent ones get trusted. Both end at zero protection. | 6 |
 | **Quiet-guard retirement** | Using the absence of real violations as guard-health evidence retires a healthy boundary check even when its negative control still proves that the protected mechanism and detector are live. | 6 |
@@ -40,7 +40,7 @@ to judge whether a rule has become dead armor.
 | **Concept inflation** | Naming a new thing is the author's joy and the reader's tax, and the tax is invisible in the PR that adds it. Saturated cognition breeds patch-on-patch. | 8 |
 | **Rewrite gravity** | Once comprehension cost exceeds rewrite cost for one individual, the rewrite looks locally rational; the institutional knowledge it destroys was never on that individual's balance sheet. | 8 |
 | **Rewrite containment dogma** | Treating the smallest-slice heuristic as an absolute preserves migration machinery even when a bounded replacement cannot close or the whole target is cheap, isolated, and explicitly replaceable. | 8 |
-| **Knowledge evaporation** | Reasons live in heads and chat logs; rules live in files. The rule outlives the reason and becomes either superstition (kept in fear) or noise (deleted in ignorance). | 8 |
+| **Knowledge evaporation** | Reasons live in heads and chat logs; rules live in files. The rule outlives the reason and becomes either superstition (kept in fear) or noise (deleted in ignorance). | 6 |
 
 ## Translated practice (provenance)
 
@@ -48,10 +48,9 @@ What each section borrows, so the borrowing can be re-examined at the
 source if a rule comes under question:
 
 - **Linux** — graded stability (userspace contract sacred, in-kernel
-  interfaces refuse stability promises) → section 2; inactive-maintainer
-  removal → the boundary/accountability-divergence indicator in
-  `diagnostics.md`.
-- **Git** — plumbing/porcelain stability split → section 2, level 4.
+  interfaces refuse stability promises) → section 2.
+- **Git** — plumbing/porcelain stability split → section 2 and the Assembly or
+  wiring fallback grade in `surface-cutover.md`.
 - **SQLite** — invariants sunk into file formats, state machines, and a
   test corpus rather than convention → section 6.
 - **PostgreSQL** — change classes, upgrade paths, and deprecation as
@@ -76,7 +75,7 @@ Recorded so they are not "discovered missing" and re-added by accident:
 - **Mandatory documentation tooling** (universal frontmatter schemas,
   manifest formats, named checkers) — the protocol states the invariant and
   defaults to repository-native mechanisms. The structure decision ladder in
-  `architecture-records.md` apply only when format and lifecycle authority are
+  `architecture-records.md` applies only when format and lifecycle authority are
   explicitly delegated.
 - **Repository-specific topology and contract vocabulary** — Keel reads and
   obeys authoritative project sources; it does not copy them into a generic

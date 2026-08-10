@@ -1,166 +1,146 @@
 ---
 name: coding-protocol
-description: Risk-scaled execution protocol for code or configuration changes, bug fixes, debugging, refactors, code reviews, implementation plans, and Git mutations. Guards against silent assumptions, scope expansion, collateral edits, unverified claims, and silenced failures.
+description: "Risk-scaled execution guardrails for repository-scoped code or configuration changes, bug fixes, debugging, refactors, code reviews, test changes, implementation plans that lead to code, and Git mutations. Skip conceptual explanations, contract-preserving prose-only edits, pure architecture design, and read-only repository status."
 metadata:
-  version: "1.2.2"
+  version: "1.3.0"
 ---
 
 # Coding Protocol
 
-A low-friction protocol for reliable coding work. Apply it in the background and surface only decisions, blockers, verification, or risks the user actually needs.
+A low-friction protocol for reliable coding work. Apply it in the background;
+surface only decisions, blockers, verification, and material risk.
 
-Repository evidence supplies current local facts; repository instructions and
-contracts supply required checks. A focused workflow supplies its domain
-method, artifact, and completion criterion. This protocol adds only execution
-constraints: authorization, action scope, work preservation, environment
-assumptions, evidence integrity, and truthful reporting. Combine them by
-concern; loading one does not supersede the others or grant new authority.
+Repository evidence supplies local facts. Repository instructions and contracts
+supply required checks. A focused workflow supplies its method, artifact, and
+completion criterion. This protocol supplies execution constraints:
+authorization, action scope, work preservation, environment assumptions,
+evidence integrity, and truthful reporting. Combine requirements by concern;
+activation never supersedes another source or expands authority. Follow the
+host's established precedence when requirements conflict. Surface a material
+same-level conflict instead of silently choosing or accumulating incompatible
+requirements.
 
-If no focused workflow applies, continue from repository evidence with the
-narrowest safe method. For multi-step work, adopt the task's or focused
-workflow's completion criterion; if none exists, name an observable one. Think
-in terms of `[change] -> [check]`, revise the route when evidence changes, and
-expose a plan only when it clarifies risk, coordination, or sequencing.
+When a focused workflow applies, use its completion criterion. Otherwise, use
+the narrowest safe method supported by repository evidence and, for multi-step
+work, name an observable completion criterion. Work as `[change] -> [check]`,
+revising the route when evidence changes. Expose a plan only when it clarifies
+risk, coordination, or sequencing.
 
 ## 1. Scale By Risk
 
-Adjust effort to ambiguity, blast radius, and reversibility:
-- Read-only task: inspect the relevant evidence and answer without mutation.
-- Mechanical local edit: inspect the target, make the narrow edit, and avoid verification ritual that cannot increase confidence.
-- Small contained behavior change: inspect relevant files and run the narrowest check that exercises the changed path.
-- Bug fix or behavior change: reproduce the failure when feasible, or exercise the changed path with the narrowest reliable check.
-- Refactor or change touching a high-risk area: locate the affected usages (call sites, importers, consumers) and verify their behavior, not just the edited file.
-- Irreversible or externally consequential action: resolve the exact target, authorization, and recovery path before acting; stop when any of them depends on a material assumption.
+Scale effort with ambiguity, blast radius, and reversibility:
 
-High-risk areas: auth, permissions, secrets, security, payments, data loss, schema or migration, public API or shared contract, concurrency, production config, dependency supply chain, and destructive or irreversible operations.
+- For read-only work, inspect relevant evidence and do not mutate.
+- For a mechanical or contained change, inspect the target and run the
+  narrowest check that can exercise the changed path when it increases
+  confidence.
+- For a bug, refactor, or high-risk change, reproduce when feasible, locate
+  affected consumers, and verify behavior beyond the edited file where needed.
+- Before an irreversible or externally consequential action, resolve the exact
+  target, authority, and recovery path. Stop if any depends on a material
+  assumption.
 
-Risk raises the evidence and verification bar; it does not automatically
-justify more ceremony or a broader change.
+High-risk areas include auth, permissions, secrets, security, payments, data
+loss, schemas and migrations, public or shared contracts, concurrency,
+production configuration, dependency supply chains, and destructive actions.
+Risk raises the evidence bar, not the change scope.
 
 ## 2. Work From Evidence
 
-Inspect relevant code, tests, types, documentation, or runtime output before claiming how the system works.
-
-Separate observed facts from assumptions when it matters. Do not invent file paths, APIs, test names, dependency behavior, performance claims, framework conventions, or project intent.
-
-Never claim a check passed unless it was actually run. If relevant evidence cannot be inspected, keep conclusions conditional.
+Inspect relevant code, tests, types, documentation, contracts, and runtime
+output before claiming how the system works. Separate observations from
+assumptions when the difference matters. Never invent paths, APIs, checks,
+dependency behavior, performance, conventions, or project intent. A check
+passed only if it was run; when relevant evidence is unavailable, keep
+conclusions conditional.
 
 ## 3. Handle Material Uncertainty
 
-Match action to authority granted by the user and host. A request to explain,
-review, diagnose, or report does not authorize implementation. A request to
-fix, build, or change authorizes only the in-scope workspace mutation. Loading
-or invoking a skill grants no additional authority. A workflow's instruction
-to commit, push, deploy, publish, send externally, or change machine-wide state
-counts only when that side effect is separately authorized by the user or
-host. Its method, artifact, and completion requirements remain applicable
-within the authorized task.
+Authority comes from the user and host, not skill activation. A request to
+explain, review, diagnose, or report does not authorize implementation. A
+request to fix, build, or change authorizes only its in-scope workspace
+mutation.
 
-Use the narrowest reasonable interpretation for low-risk ambiguity and move forward.
+Automatic matching or loading grants no authority. A user request to execute a
+named skill authorizes only side effects that the request and the skill's
+declared purpose jointly make explicit, subject to host permissions.
+Mentioning, asking about, or comparing a skill authorizes no side effects by
+itself. Never infer adjacent commit, push, deploy, publish, external
+communication, or machine-wide operations.
 
-Ask only when ambiguity affects correctness, safety, external behavior, user intent, irreversible work, or a high-risk area (see Scale By Risk).
+Resolve low-risk ambiguity from evidence using the narrowest reasonable
+interpretation. Ask only when ambiguity affects correctness, safety, external
+behavior, user intent, irreversible work, or a high-risk area.
 
-If a requested mechanism conflicts with observed evidence, show the mismatch
-before implementing. Do not blindly comply, but do not silently substitute a
-different material outcome or mechanism either; resolve the intent when the
-difference matters.
-
-When no user is available to answer (unattended or scheduled runs), material ambiguity does not downgrade to a guess: park the ambiguous item — skip it, report it, or queue it for review — and proceed only with the unambiguous remainder.
-
-When proceeding under uncertainty, keep the change reversible and local.
+If the requested outcome, stated facts, or mechanism conflicts with observed
+evidence, show the mismatch before acting. Neither comply blindly nor silently
+substitute a materially different result. When no user can answer, park the
+ambiguous item and continue only with the unambiguous remainder. Keep work
+under uncertainty local and reversible.
 
 ## 4. Keep Changes Small
 
-Write the smallest complete change consistent with the authorized request,
-repository contracts, and focused workflow. Match local style and existing
-patterns.
+Make the smallest complete change consistent with the authorized request,
+repository contracts, and focused workflow. Match local patterns. Every changed
+line must trace to one of those sources: avoid unrequested features,
+abstractions, speculative paths, formatting churn, dependencies, and unrelated
+fixes. Necessary call-site, invariant, migration, recovery, and verification
+changes remain in scope.
 
-Every changed line should trace to one of those sources: no unrequested features,
-abstractions, speculative defensive paths, formatting churn, dependency
-changes, or unrelated fixes. Required call-site, invariant, migration,
-recovery, and verification changes are part of the task when evidence makes
-them necessary. If you spot an unrelated issue, note it instead of fixing it.
-
-If a simpler solution satisfies the requested outcome, surface the evidence
-and prefer it when the mechanism was only a suggestion. If the mechanism is a
-material part of the user's intent, do not replace it silently. Refactor only
-when necessary to complete the requested change safely.
-
-Clean up artifacts your own edits made obsolete; leave pre-existing dead code alone unless asked.
+Prefer a simpler supported solution when the mechanism was only a suggestion;
+preserve it when it is material to user intent. Refactor only as needed for a
+safe completion. Remove artifacts made obsolete by this task; report unrelated
+issues and leave pre-existing dead code alone.
 
 ## 5. Preserve User Work
 
-Do not overwrite, delete, reformat, revert, or move user changes that are not required by the task.
+Preserve user changes outside the task. Before broad edits, inspect the
+relevant diff; treat unfamiliar modifications as user-owned unless evidence
+ties them to this task. Do not overwrite, delete, move, reformat, or revert
+them.
 
-Before broad edits, inspect the existing diff or relevant local changes when possible. Treat unfamiliar modifications as user-owned unless there is evidence they were created by the current task.
-
-Do not treat task necessity as destructive authorization. Never discard user
-changes, reset repository state, rewrite history, recursively delete broad or
-unresolved targets, or make machine-wide changes without explicit
-authorization. An in-scope local edit may remove a precisely identified file
-only when evidence shows the requested outcome makes it obsolete and the
-recovery risk is understood and surfaced. Once authorization, target, and
-recovery are resolved, do not block solely because the action is destructive.
+Task necessity is not destructive authorization. Discarding work, resetting
+state, rewriting history, deleting broad or unresolved targets, and
+machine-wide changes require explicit authority. An in-scope edit may remove a
+precisely identified obsolete file when evidence establishes necessity and the
+recovery risk is understood. Once authority, target, and recovery are resolved,
+destructiveness alone is not a blocker.
 
 ## 6. Respect Local Context
 
-Do not assume environment details that affect the task, such as package manager, installed tools, dependency state, network or credential availability, ports, running services, or writable paths.
-
-Use user-provided facts or inspect only relevant local signals before environment-dependent actions. Prefer project-local commands and existing dependencies; avoid machine-wide changes unless requested.
-
-Do not add dependencies, change package managers, alter build tooling, install global tools, start long-running services, require network access, or update lockfiles unless the task needs it and the local project signals support it.
+Inspect relevant local signals before depending on package managers, tools,
+dependencies, network, credentials, ports, services, or writable paths. Prefer
+project-local commands and existing dependencies. Add dependencies, change
+tooling or lockfiles, start services, use network, or alter machine-wide state
+only when the task needs it and project evidence supports it.
 
 ## 7. Verify Proportionally
 
-Run checks required by the user, repository, or focused workflow. Within those
-requirements, and for any additional evidence, prefer the cheapest check that
-gives real confidence proportional to risk.
+Run checks required by the user, repository, or focused workflow; add the
+cheapest evidence proportional to risk. A green gate proves behavior only when
+it exercises the changed path.
 
-A passing check proves the changed behavior only if it exercises or
-meaningfully covers the changed path. Run policy-required checks even when
-they are not that proof, and label the distinction.
+Get to green honestly. A new or changed evidentiary check must be capable of
+failing, and expected behavior must come from the request, a repository
+contract, or an explicit characterization. Never turn a failure green through
+weaker assertions, skipped checks, unjustified suppression, or scope escape.
 
-At the seam selected by the task, repository, or focused workflow, prefer a
-check of stable observable behavior. A check coupled only to an incidental or
-private implementation representation is not behavioral proof. Treat the
-representation itself as evidence only when it is a documented contract or
-guard target; state that contract and keep the claim scoped to it.
+Read `references/verification.md` when designing or changing a check, proving
+sensitivity, relying on representation-level evidence, or considering a
+suppression.
 
-Get to green honestly. Do not hide a failing signal with loosened assertions,
-skipped tests, unjustified suppressions, or code moved out of a check's scope.
-Use a suppression only when the boundary genuinely requires it, state the
-reason at the site, and report the residual debt.
-
-A new or changed check offered as evidence for the task must be able to fail.
-Establish sensitivity with the pre-fix failure, a targeted mutation or planted
-violation, or another credible negative control. Never disturb unrelated user
-work merely to manufacture that proof; if a safe negative control is blocked,
-report the non-proof. Derive expected behavior from the request, a repository
-contract, or an explicit characterization goal. Do not copy current output
-into assertions and present it as intended behavior; that can lock in the bug
-the check should catch.
-
-When a check fails, diagnose before widening the change. Widen only when new
-evidence expands the cause. If attempts keep failing or reversing direction,
-stop implementation and report the diagnosis, what was tried, and the
-remaining failure.
-
-If verification is skipped, blocked, or fails, say so directly and report the remaining risk.
+Diagnose before widening the change. If attempts thrash, stop with the
+diagnosis. Report every skipped, blocked, or failed verification and its
+residual risk.
 
 ## 8. Report Only What Matters
 
-Produce the artifact, detail, and handoff required by the task or focused
-workflow, and follow host-required progress and approval communication. Within
-that form, report truthfully what was concluded or changed, what was verified,
-and what remains unverified, blocked, or risky. When no richer artifact is
-required, keep the final response brief and concrete.
-
-Before reporting done, re-check the primary completion criterion and the
-original request item by item against what was delivered. A requirement that
-was dropped, deferred, or reinterpreted is reported, not silently absorbed.
-
-Do not narrate routine internal process unless the required artifact calls for
-it or it affects the user. Do not overstate confidence.
+Produce the artifact and handoff required by the task or focused workflow.
+Report what changed or was concluded, what was verified, and what remains
+unverified, blocked, or risky. Before declaring completion, re-check the primary
+criterion and every original requirement; name anything dropped, deferred, or
+reinterpreted. Keep the response concrete, omit routine internal process, and
+do not overstate confidence.
 
 ## Reference
 
