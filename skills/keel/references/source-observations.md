@@ -1,17 +1,10 @@
 # Source Observations
 
-SKILL.md states the rules; this file records what the rules cannot carry:
-the mechanism that makes each failure mode happen, the public practice the
-rules translate, and what was deliberately left out. Read it when deciding
-whether a rule still earns its place — a rule is retired by checking
-whether its mechanism still operates, not by vote or by feel.
+SKILL.md states the rules; this file records what the rules cannot carry: the mechanism that makes each failure mode happen, the public practice the rules translate, and what was deliberately left out. Read it when deciding whether a rule still earns its place — a rule is retired by checking whether its mechanism still operates, not by vote or by feel.
 
 ## Failure modes → mechanisms
 
-Keep this map true in both directions: a failure mode with no rule, or a
-rule with no mechanism here, is drift. The mechanism column is the point —
-it is what SKILL.md's terse rules omit, and what a future maintainer needs
-to judge whether a rule has become dead armor.
+Keep this map true in both directions: a failure mode with no rule, or a rule with no mechanism here, is drift. The mechanism column is the point — it is what SKILL.md's terse rules omit, and what a future maintainer needs to judge whether a rule has become dead armor.
 
 | Failure mode | Mechanism — why it keeps happening | Rule |
 | --- | --- | --- |
@@ -44,39 +37,20 @@ to judge whether a rule has become dead armor.
 
 ## Translated practice (provenance)
 
-What each section borrows, so the borrowing can be re-examined at the
-source if a rule comes under question:
+What each section borrows, so the borrowing can be re-examined at the source if a rule comes under question:
 
-- **Linux** — graded stability (userspace contract sacred, in-kernel
-  interfaces refuse stability promises) → section 2.
-- **Git** — plumbing/porcelain stability split → section 2 and the Assembly or
-  wiring fallback grade in `surface-cutover.md`.
-- **SQLite** — invariants sunk into file formats, state machines, and a
-  test corpus rather than convention → section 6.
-- **PostgreSQL** — change classes, upgrade paths, and deprecation as
-  routine institutions rather than heroics → section 8.
+- **Linux** — graded stability (userspace contract sacred, in-kernel interfaces refuse stability promises) → section 2.
+- **Git** — plumbing/porcelain stability split → section 2 and the Assembly or wiring fallback grade in `surface-cutover.md`.
+- **SQLite** — invariants sunk into file formats, state machines, and a test corpus rather than convention → section 6.
+- **PostgreSQL** — change classes, upgrade paths, and deprecation as routine institutions rather than heroics → section 8.
 - **Hyrum's law** → section 2. **Gall's law** → section 1.
-- **Conway's law, attention form** — structure mirrors the communication
-  structure of its maintainers; for agent-maintained code that structure
-  is the context window, so architecture that cannot be navigated in
-  bounded reads will be bypassed, then forgotten → sections 1 and 7.
+- **Conway's law, attention form** — structure mirrors the communication structure of its maintainers; for agent-maintained code that structure is the context window, so architecture that cannot be navigated in bounded reads will be bypassed, then forgotten → sections 1 and 7.
 
 ## Deliberate omissions
 
 Recorded so they are not "discovered missing" and re-added by accident:
 
-- **Solution shapes** (event sourcing, CQRS, microservices vs monolith,
-  hexagonal, …) — keel governs how a shape is chosen, bounded, and kept
-  honest, not which shape to choose. Naming shapes would date the skill
-  and inflate it.
-- **Org-design mechanics** (maintainer hierarchies, LTS branch policy,
-  RFC committees) — they presume a human organization; the protocol must
-  also work for a single agent session.
-- **Mandatory documentation tooling** (universal frontmatter schemas,
-  manifest formats, named checkers) — the protocol states the invariant and
-  defaults to repository-native mechanisms. The structure decision ladder in
-  `architecture-records.md` applies only when format and lifecycle authority are
-  explicitly delegated.
-- **Repository-specific topology and contract vocabulary** — Keel reads and
-  obeys authoritative project sources; it does not copy them into a generic
-  rule set.
+- **Solution shapes** (event sourcing, CQRS, microservices vs monolith, hexagonal, …) — keel governs how a shape is chosen, bounded, and kept honest, not which shape to choose. Naming shapes would date the skill and inflate it.
+- **Org-design mechanics** (maintainer hierarchies, LTS branch policy, RFC committees) — they presume a human organization; the protocol must also work for a single agent session.
+- **Mandatory documentation tooling** (universal frontmatter schemas, manifest formats, named checkers) — the protocol states the invariant and defaults to repository-native mechanisms. The structure decision ladder in `architecture-records.md` applies only when format and lifecycle authority are explicitly delegated.
+- **Repository-specific topology and contract vocabulary** — Keel reads and obeys authoritative project sources; it does not copy them into a generic rule set.

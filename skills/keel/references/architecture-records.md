@@ -1,8 +1,6 @@
 # Architecture Records
 
-Use this reference only for records that carry or route load-bearing
-architecture facts. Leave general documentation, prose quality, rendering,
-and domain-specific artifact formats to their owning workflow.
+Use this reference only for records that carry or route load-bearing architecture facts. Leave general documentation, prose quality, rendering, and domain-specific artifact formats to their owning workflow.
 
 ## Resolve Authority Before Structure
 
@@ -11,21 +9,11 @@ Separate six concerns:
 - **Record scope** — within the already authorized change, which records are in scope.
 - **Fact authority** — which source or rule states accepted architecture facts.
 - **Decision authority** — who may approve or change those facts.
-- **Editorial authority** — who may record or revise an authorized fact.
-  Editorial access does not confer decision rights.
+- **Editorial authority** — who may record or revise an authorized fact. Editorial access does not confer decision rights.
 - **Format authority** — who may change structure, metadata, and naming.
-- **Lifecycle authority** — who may supersede, migrate, archive, or delete a
-  record.
+- **Lifecycle authority** — who may supersede, migrate, archive, or delete a record.
 
-This list grants no edit permission. The user and host grant action
-authorization; an execution workflow governs authorized edits and work
-preservation. A request to reorganize files does not authorize rewriting facts
-or historical records. Treat repository-declared sources and decision or
-lifecycle roles as current until an authorized migration closes.
-A stale source may be challenged but not replaced without decision authority.
-In greenfield work, use user goals, external constraints, and
-provenance-bearing domain inputs to propose a document structure; preserve the
-owning workflow's facts and do not present the structure as inherited truth.
+This list grants no edit permission. The user and host grant action authorization; an execution workflow governs authorized edits and work preservation. A request to reorganize files does not authorize rewriting facts or historical records. Treat repository-declared sources and decision or lifecycle roles as current until an authorized migration closes. A stale source may be challenged but not replaced without decision authority. In greenfield work, use user goals, external constraints, and provenance-bearing domain inputs to propose a document structure; preserve the owning workflow's facts and do not present the structure as inherited truth.
 
 ## Select A Route
 
@@ -45,45 +33,22 @@ owning workflow's facts and do not present the structure as inherited truth.
 | Projection | Its source binding, generation status, freshness, and failures; not copied source facts. |
 | Working note | Exploration and unresolved options; it becomes authoritative only through the declared decision path. |
 
-Preserve focused artifacts such as threat models, domain models, API schemas,
-and historical decisions in their native form. Index them or add Keel
-findings; do not flatten their method or vocabulary into a generic record.
+Preserve focused artifacts such as threat models, domain models, API schemas, and historical decisions in their native form. Index them or add Keel findings; do not flatten their method or vocabulary into a generic record.
 
 ## Add Structure Only When Delegated
 
-Use this decision ladder only when no repository-native system owns the shape
-and the applicable format and lifecycle authorities explicitly authorize it
-for the named record scope. Fact and decision authority stay with their
-declared holders.
+Use this decision ladder only when no repository-native system owns the shape and the applicable format and lifecycle authorities explicitly authorize it for the named record scope. Fact and decision authority stay with their declared holders.
 
 - Start with one focused canonical record per coherent fact jurisdiction.
 - Add an index only when more than one entry path needs navigation.
-- Add routing metadata only when repeated discovery or ambiguity has a named
-  machine consumer.
+- Add routing metadata only when repeated discovery or ambiguity has a named machine consumer.
 
-This ladder is not a prescribed file tree, schema, or prose template. The
-repository or focused documentation workflow chooses those shapes. If routing
-metadata earns its cost, derive the minimum fields from the consumer's
-questions and repository identifiers; do not create a universal schema. Let
-source control supply history unless another consumer genuinely requires
-timestamps or per-record schema versions.
+This ladder is not a prescribed file tree, schema, or prose template. The repository or focused documentation workflow chooses those shapes. If routing metadata earns its cost, derive the minimum fields from the consumer's questions and repository identifiers; do not create a universal schema. Let source control supply history unless another consumer genuinely requires timestamps or per-record schema versions.
 
-A new canonical record must make its purpose, fact source, applicable decision,
-editorial, format, and lifecycle authorities, owned and excluded scope,
-load-bearing facts or contracts, and applicable evidence, failure, migration,
-or open questions discoverable. Express those semantics in repository-native
-form.
+A new canonical record must make its purpose, fact source, applicable decision, editorial, format, and lifecycle authorities, owned and excluded scope, load-bearing facts or contracts, and applicable evidence, failure, migration, or open questions discoverable. Express those semantics in repository-native form.
 
-Treat an index as navigation, not a fact store. When it is generated, declare
-one editable routing source and regenerate the projection from it. Report
-unowned, ambiguous, unavailable, and superseded routes rather than guessing.
-Do not copy record bodies or repository-wide inventories into an index.
+Treat an index as navigation, not a fact store. When it is generated, declare one editable routing source and regenerate the projection from it. Report unowned, ambiguous, unavailable, and superseded routes rather than guessing. Do not copy record bodies or repository-wide inventories into an index.
 
 ## Hand Off Without Taking Over
 
-Return the required fact ownership, record role, routing, migration boundary,
-and closure conditions. When present, let a focused writing or documentation
-workflow own wording and presentation, and let an execution workflow own
-edits, verification, and user-work preservation. Otherwise, follow repository
-and host defaults. Neither workflow may turn a projection into a second fact
-authority.
+Return the required fact ownership, record role, routing, migration boundary, and closure conditions. When present, let a focused writing or documentation workflow own wording and presentation, and let an execution workflow own edits, verification, and user-work preservation. Otherwise, follow repository and host defaults. Neither workflow may turn a projection into a second fact authority.

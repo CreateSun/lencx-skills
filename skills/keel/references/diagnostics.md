@@ -1,16 +1,10 @@
 # Diagnostics
 
-Operational companion to SKILL.md for design and review work. It supplies task
-routes and a review matrix without replacing repository evidence,
-focused-workflow artifacts, or their vocabulary. Return load-bearing findings
-and closure conditions through the owning decision path.
+Operational companion to SKILL.md for design and review work. It supplies task routes and a review matrix without replacing repository evidence, focused-workflow artifacts, or their vocabulary. Return load-bearing findings and closure conditions through the owning decision path.
 
 ## Task routes
 
-Use the narrowest route that fits the request. Each route terminates in one of
-two complete states: **closed**, when evidence supports a decision and its
-closure conditions; or **open**, when viable alternatives or findings and
-their unresolved unknowns are explicit.
+Use the narrowest route that fits the request. Each route terminates in one of two complete states: **closed**, when evidence supports a decision and its closure conditions; or **open**, when viable alternatives or findings and their unresolved unknowns are explicit.
 
 | Route | Use when | Required evidence | Stop when | Must output |
 | --- | --- | --- | --- | --- |
@@ -21,12 +15,7 @@ their unresolved unknowns are explicit.
 
 ## Design review matrix
 
-These are Keel-internal lenses. Apply them to whatever representation the
-repository or focused work supplies; other artifacts need not adopt these slot
-names. Run only rows that can plausibly change the proposed design, RFC, or
-structural change set. A selected row should be answerable with concrete references;
-an unanswerable selected row is itself a finding. Group irrelevant rows under
-one reason only when their absence could look accidental.
+These are Keel-internal lenses. Apply them to whatever representation the repository or focused work supplies; other artifacts need not adopt these slot names. Run only rows that can plausibly change the proposed design, RFC, or structural change set. A selected row should be answerable with concrete references; an unanswerable selected row is itself a finding. Group irrelevant rows under one reason only when their absence could look accidental.
 
 | Slot | Question | Rule |
 | --- | --- | --- |
@@ -39,6 +28,4 @@ one reason only when their absence could look accidental.
 | Guards | Which relied-on rules justify falsifiable enforcement at this blast radius? What evidence shows each check can detect a violation, and can its scope be escaped? If enforcement is manual, what makes review explicit and auditable? | 6 |
 | Budget | In an existing system, what is the net concept growth, retirement, accountability, and review date? In greenfield work, which simpler alternative was rejected and why? | 8 |
 
-Section 7's governed-path cost is a property of the running system, not one
-design. When recurring bypass or architecture drift is in scope, use
-`rot-audit.md`.
+Section 7's governed-path cost is a property of the running system, not one design. When recurring bypass or architecture drift is in scope, use `rot-audit.md`.

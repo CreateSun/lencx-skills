@@ -1,15 +1,10 @@
 # Verification
 
-Repository policy and focused testing or debugging workflows own commands and
-completion.
+Repository policy and focused testing or debugging workflows own commands and completion.
 
 ## Choose Evidence
 
-Identify the changed path and observable. Prefer the narrowest reliable seam:
-public output, state transition, protocol effect, or another stable observable.
-Treat a source shape, private call sequence, or incidental snapshot as
-supporting evidence unless that representation is a declared contract or guard
-target; name it and scope the claim.
+Identify the changed path and observable. Prefer the narrowest reliable seam: public output, state transition, protocol effect, or another stable observable. Treat a source shape, private call sequence, or incidental snapshot as supporting evidence unless that representation is a declared contract or guard target; name it and scope the claim.
 
 ## Prove Sensitivity
 
@@ -20,24 +15,16 @@ A new or changed evidentiary check needs one credible negative control:
 - plant a scoped violation; or
 - use a known violating input.
 
-Confirm the intended failure, then restore the exact pre-control state,
-including every pre-existing user change. If no safe control exists, report
-green without proved sensitivity.
+Confirm the intended failure, then restore the exact pre-control state, including every pre-existing user change. If no safe control exists, report green without proved sensitivity.
 
-Derive expected behavior from the request or authoritative contract. A
-characterization names the behavior frozen and why; copied current output alone
-is not a specification.
+Derive expected behavior from the request or authoritative contract. A characterization names the behavior frozen and why; copied current output alone is not a specification.
 
 ## Admit Suppressions Narrowly
 
-Admit a suppression only when the source is immutable within the authorized
-task and repository policy recognizes the boundary, owner, and removal path.
-Use the narrowest mechanism and record at the site:
+Admit a suppression only when the source is immutable within the authorized task and repository policy recognizes the boundary, owner, and removal path. Use the narrowest mechanism and record at the site:
 
 - source and why it cannot be corrected;
 - owner and removal condition; and
 - residual risk or coverage gap.
 
-Otherwise fix the cause or return the failure. Baseline growth, a skipped check,
-weakened assertion, or analysis-scope escape is a suppression regardless of
-label.
+Otherwise fix the cause or return the failure. Baseline growth, a skipped check, weakened assertion, or analysis-scope escape is a suppression regardless of label.

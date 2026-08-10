@@ -1,23 +1,14 @@
 # Rot Audit
 
-Read only when auditing architecture drift, recurring bypass, exception growth,
-or the long-lived health of boundaries and guards.
+Read only when auditing architecture drift, recurring bypass, exception growth, or the long-lived health of boundaries and guards.
 
 ## Route
 
-Declare the audit scope, selected indicators, evidence window, exception
-baseline, and negative-control evidence. Close when every in-scope indicator
-has grounded evidence, an explicitly unavailable source, or a reasoned
-exclusion. Return findings, justified no-action or subtraction candidates,
-accountable owners, the next review trigger, and any next snapshot.
+Declare the audit scope, selected indicators, evidence window, exception baseline, and negative-control evidence. Close when every in-scope indicator has grounded evidence, an explicitly unavailable source, or a reasoned exclusion. Return findings, justified no-action or subtraction candidates, accountable owners, the next review trigger, and any next snapshot.
 
 ## Indicators
 
-Lagging symptoms such as incidents and rewrites arrive late, so use leading
-indicators only where they earn their cost. Interpret level and direction
-against repository context: expected product growth can raise a healthy count.
-Reuse a repository-defined review trigger when present; otherwise a concerning
-trend creates a finding for its owner, not an automatic work item.
+Lagging symptoms such as incidents and rewrites arrive late, so use leading indicators only where they earn their cost. Interpret level and direction against repository context: expected product growth can raise a healthy count. Reuse a repository-defined review trigger when present; otherwise a concerning trend creates a finding for its owner, not an automatic work item.
 
 | Indicator | How to read it |
 | --- | --- |
@@ -34,11 +25,6 @@ trend creates a finding for its owner, not an automatic work item.
 
 ## Evidence Retention
 
-Prefer existing version-control history, automated-check artifacts, and metrics
-over a new Keel-owned store. If a new snapshot is justified, declare its scope,
-cadence, retention, owner, and deletion condition. Do not append unbounded
-history or build a second source of truth merely to measure drift.
+Prefer existing version-control history, automated-check artifacts, and metrics over a new Keel-owned store. If a new snapshot is justified, declare its scope, cadence, retention, owner, and deletion condition. Do not append unbounded history or build a second source of truth merely to measure drift.
 
-Indicators are projections of health, not health itself. Declare each scope,
-evidence window, and known blind spots. Validate a quiet signal before treating
-it as proof of health or as grounds for retirement.
+Indicators are projections of health, not health itself. Declare each scope, evidence window, and known blind spots. Validate a quiet signal before treating it as proof of health or as grounds for retirement.
